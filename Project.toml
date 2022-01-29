@@ -1,0 +1,7 @@
+name="FoamWorld"
+uuid="d9a57908-e2f2-511d-8d01-df46d4e4b953"
+version="0.3.0-alpha"
+
+[deps]
+StaticArrays="90137ffa-7385-5640-81b9-e52037218182"
+GtkObservables="8710efd8-4ad6-11eb-33ea-2d5ceb25a41c"
