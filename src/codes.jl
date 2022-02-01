@@ -32,6 +32,95 @@ function encode(obj) # default
 	return s*')'
 end
 
+function decode_get_elements(s::String)
+	l=length(s);st=zero(UInt32);instr=false;a=[];last=1
+	for i in 1:l
+		c=s[i]
+		if instr
+			if c=='"'
+				instr=false
+			end
+			continue
+		end
+		if c=='('||c=='['||c=='{'
+			st+=1
+		elseif c==')'||c==']'||c=='}'
+			st-=1
+		elseif c=='"'
+			instr=true
+		elseif c==','
+			if st==0
+				push!(a,decode(s[last:i-1]))
+				last=i+1
+			end
+		end
+	end
+	if last!=l+1
+		push!(a,decode(s[last:l]))
+	end
+	return a
+end
+function decode_get_pairs(s::String)
+	l=length(s);st=zero(UInt32);instr=false;a=Dict();last=1;tkey=nothing
+	for i in 1:l
+		c=s[i]
+		if instr
+			if c=='"'
+				instr=false
+			end
+			continue
+		end
+		if c=='('||c=='['||c=='{'
+			st+=1
+		elseif c==')'||c==']'||c=='}'
+			st-=1
+		elseif c=='"'
+			instr=true
+		elseif c==':'
+			if st==0
+				tkey=decode(s[last:i-1])
+				last=i+1
+			end
+		elseif c==','
+			if st==0
+				a[tkey]=decode(s[last:i-1])
+				last=i+1
+			end
+		end
+	end
+	if last!=l+1
+		a[tkey]=decode(s[last:l])
+	end
+	return a
+end
+function decode_get_parts(s::String)
+	l=length(s);st=zero(UInt32);instr=false;a=Vector{String}();last=1
+	for i in 1:l
+		c=s[i]
+		if instr
+			if c=='"'
+				instr=false
+			end
+			continue
+		end
+		if c=='('||c=='['||c=='{'
+			st+=1
+		elseif c==')'||c==']'||c=='}'
+			st-=1
+		elseif c=='"'
+			instr=true
+		elseif c==','
+			if st==0
+				push!(a,s[last:i-1])
+				last=i+1
+			end
+		end
+	end
+	if last!=l+1
+		push!(a,s[last:l])
+	end
+	return a
+end
 function decode(s::String)
 	if s=="T"
 		return true
@@ -51,8 +140,19 @@ function decode(s::String)
 		a=s[2:end-1]
 		return de_str(a)
 	elseif c=='['
+		return decode_get_elements(s[2:end-1])
 	elseif c=='{'
+		return decode_get_pairs(s[2:end-1])
 	elseif c=='('
+		a=decode_get_parts(s[2:end-1])
+		name=popfirst!(a)
+		l=length(a)
+		b=Vector{Any}(undef,l)
+		for i in 1:l
+			b[i]=decode(a[i])
+		end
+		f=eval(Symbol(name))
+		return f(b...)
 	elseif '0'<=c<='9'
 		fl=true
 		for i in 1:length(s)
