@@ -3,6 +3,7 @@ encode(obj::Bool)=obj ? "T" : "F"
 encode(obj::Missing)="mis"
 encode(obj::Nothing)="n"
 encode(obj::Number)=string(obj)
+encode(obj::Symbol)="&$obj" # 只允许文字和下划线
 function encode(obj::Vector)
 	l=length(obj)
 	if l==0
@@ -135,10 +136,12 @@ function decode(s::String)
 	elseif s=="NaN"
 		return NaN
 	end
+	s=clean_str(s)
 	c=s[1]
 	if c=='"'
-		a=s[2:end-1]
-		return de_str(a)
+		return de_str(s[2:end-1])
+	elseif c=='&'
+		return Symbol(s[2:end])
 	elseif c=='['
 		return decode_get_elements(s[2:end-1])
 	elseif c=='{'

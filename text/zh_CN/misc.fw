@@ -1,0 +1,22 @@
+{
+&anonymous:"匿名",
+&confirm:"确定",
+&mode:"模式",
+&unnamed:"未命名",
+&map_generators:{
+	&debug:"测试",
+	&default:"默认",
+	&_infmaze:"无限迷宫",
+},
+&modes:{
+	&c:"神性"
+	&s:"普通"
+},
+&pages:{
+	&mainmenu:"主菜单",
+	&setting:"设置",
+	&newgame:"新游戏",
+	&open:"打开存档",
+	&game:"进行中",
+}
+}

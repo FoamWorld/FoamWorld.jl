@@ -1,0 +1,8 @@
+{
+&chosen_itm:0,
+&cmdf:{},
+&focus_mouse:T,
+&generator:&debug,
+&lang:"zh_CN",
+&tmove:1,
+}

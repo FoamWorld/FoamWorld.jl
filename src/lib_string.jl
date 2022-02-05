@@ -73,3 +73,12 @@ function de_str(s::String)
 	end
 	return d
 end
+function clean_str(s::String)
+	a=""
+	for i in s
+		if i!='\t'&&i!='\n'&&i!='\r'
+			a*=i
+		end
+	end
+	return a
+end

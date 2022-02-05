@@ -1,0 +1,10 @@
+{
+&newgame_gen:"创建新世界"
+&set_map_generator:"设置地图生成器",
+&set_seed:"设置种子",
+&set_username:"设置用户名",
+&set_worldname:"设置世界名"
+&to_setting:"设置",
+&to_newgame:"创建新世界",
+&to_open:"打开存档",
+}
