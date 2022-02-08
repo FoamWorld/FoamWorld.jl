@@ -10,4 +10,5 @@ ltemp, # 临时数据表
 curpage, # 当前页名称
 window, # 当前窗口
 winbox, # window下的box
-dcon # 画板上下文
+dcon, # 画板上下文
+loadedimgs # 已加载的图片
