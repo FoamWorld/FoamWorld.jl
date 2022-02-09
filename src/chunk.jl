@@ -40,15 +40,21 @@ function pushsave(lx::Int,ly::Int,tx::Int,ty::Int,b::Block)
 	end
 	sav[p][tx>>6|ty]=b
 end
-function makeblk(x::Int,y::Int,b::Block;player_put::Bool=false)
+function getblk(x::Int,y::Int)
 	tx=x&63+1;ty=y&63+1
 	lx=x>>6;ly=y>>6
 	c=chk(dim,lx,ly)
-	onend(c.blks[tx,ty],x,y)
+	return c.blks[tx,ty]
+end
+function setblk(x::Int,y::Int,b::Block;player_put::Bool=false)
+	tx=x&63+1;ty=y&63+1
+	lx=x>>6;ly=y>>6
+	c=chk(dim,lx,ly)
+	e_exist(c.blks[tx,ty],x,y)
 	c.blks[tx,ty]=b
-	onbegin(b,x,y)
+	exist(b,x,y)
 	if player_put
-		onput_ex(b,x,y)
+		e_put(b,x,y)
 	end
 	pushsave(lx,ly,tx,ty,b)
 end

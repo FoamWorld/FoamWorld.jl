@@ -15,9 +15,9 @@ function use(i::桶;par,needupdg::Bool)
 			i.t=装液体table[tb]
 			if needupdg updg(par) end
 		end
-		makeblk(po.first,po.second,空气())
+		setblk(po.first,po.second,空气())
 	elseif isa(b,空气) # 倒
-		makeblk(po.first,po.second,eval(装液体table[i.t])())
+		setblk(po.first,po.second,eval(装液体table[i.t])())
 		if !lsetting[:inf_use]
 			i.t=0x0
 			if needupdg updg(par) end
