@@ -9,9 +9,10 @@ function use(i::桶;par,needupdg::Bool)
 	if po===nothing return end
 	b=blk(dim,po.first,po.second)
 	if i.t==0x0 # 接
-		if !isa(b,液体) return end
+		tb=typeof(b).name.name
+		if haskey(装液体table,tb) return end
 		if !lsetting[:inf_use]
-			i.t=装液体table[typeof(b).name.name]
+			i.t=装液体table[tb]
 			if needupdg updg(par) end
 		end
 		makeblk(po.first,po.second,空气())
