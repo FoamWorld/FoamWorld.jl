@@ -2,11 +2,8 @@ abstract type Block end
 id(b::Block)=String(typeof(b).name.name)
 stack(::Block)=0x4
 c_use(::Block)=false
-function i_show(i::Block,con;theme=:slategray)
-	clear_rect(con,0,0;color=theme)
-	i_show_l(i,con)
-end
-function i_show_l(i::Block,con)
+function i_show(i::Block,con)
+	if hole(i) clear_rect(con,0,0;color=:slategray) end
 	iid=id(i)
 	if haskey(loadedimgs,iid)
 		so=@inbounds loadedimgs[iid]
@@ -36,9 +33,32 @@ hole(::Block)=false
 e_put(::Block,::Int,::Int)=nothing
 exist(::Block,::Int,::Int)=nothing
 e_exist(::Block,::Int,::Int)=nothing
-function li_show(b::Block,x::Int,y::Int)
+function li_show(b::Block,x::Int,y::Int;arr::SMatrix{31,31,Bool,961})
 	li::UInt8=light(b)
 	if li==0x0 return end
+	for i in 1:li<<1|1
+		for j in 1:li<<1|1 arr[i,j]=false end
+	end
+	xq=[0];yq=[0],lq=[li] # 任务队列
+	while !isempty(lq)
+		xx=popfirst!(xq);yy=popfirst!(yq);l=popfirst!(lq)
+		arr[xx+16,yy+16]=true
+		tl=getlig(x+xx,y+yy)
+		if l<=tl continue end
+		setlig(x+xx,y+yy,l)
+		if (!transparent(getblk(x+xx,y+yy))&&(xx!=0||yy!=0)) || l==0x1
+			continue
+		end
+		lowl::UInt8=l-0x1
+		for i in 1:4
+			x0=xx+direx[i];y0=yy+direy[i]
+			if !arr[x0+16,y0+16]
+				push!(xq,x0)
+				push!(yq,y0)
+				push!(lq,lowl)
+			end
+		end
+	end
 end
 upd(::Block)=nothing
 
@@ -46,6 +66,7 @@ abstract type 气体<:Block end
 abstract type 液体<:Block end
 colbox(::Union{气体,液体},x::Int,y::Int)=EmptyCollisionBox()
 hard(::Union{气体,液体})=zero(UInt)
+transparent(::Union{气体,液体})=true
 struct 虚无<:气体 end
 b_show(::虚无,con,x::Int,y::Int)=fill_rect(con,x,y;color=:black)
 struct 空气<:气体 end # 进行特殊处理
@@ -55,9 +76,14 @@ include("岩浆.jl")
 
 abstract type 固体<:Block end
 colbox(::固体,x::Int,y::Int)=BCollisionBox(x,y,x+1,y+1)
+transparent(::固体)=false
 struct 星岩<:固体 end
 struct 玻璃<:固体 end
+transparent(::玻璃)=true
 struct 沙子<:固体 end
+include("冰.jl")
+include("块.jl")
+include("半砖.jl")
 
 abstract type 岩石<:固体 end
 struct 石头<:岩石 end

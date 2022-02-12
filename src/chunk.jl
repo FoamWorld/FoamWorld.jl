@@ -40,6 +40,18 @@ function pushsave(lx::Int,ly::Int,tx::Int,ty::Int,b::Block)
 	end
 	sav[p][tx>>6|ty]=b
 end
+function getlig(x::Int,y::Int)
+	tx=x&63;ty=y&63
+	lx=x>>6;ly=y>>6
+	c=chk(dim,lx,ly)
+	return get_lig(c,tx,ty)
+end
+function setlig(x::Int,y::Int,v::UInt8)
+	tx=x&63;ty=y&63
+	lx=x>>6;ly=y>>6
+	c=chk(dim,lx,ly)
+	set_lig(c,tx,ty,v)
+end
 function getblk(x::Int,y::Int)
 	tx=x&63+1;ty=y&63+1
 	lx=x>>6;ly=y>>6
