@@ -83,12 +83,15 @@ transparent(::玻璃)=true
 struct 沙子<:固体 end
 include("半砖.jl")
 include("冰.jl")
+include("地毯.jl")
 include("告示牌.jl")
 include("块.jl")
 include("木板.jl")
+include("树苗.jl")
 include("树叶.jl")
 include("箱子.jl")
 include("原木.jl")
+include("Befunge.jl")
 
 abstract type 岩石<:固体 end
 struct 石头<:岩石 end

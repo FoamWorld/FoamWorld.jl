@@ -4,6 +4,8 @@ encode(obj::Missing)="mis"
 encode(obj::Nothing)="n"
 encode(obj::Number)=string(obj)
 encode(obj::Symbol)="&$obj" # 只允许文字和下划线
+encode(obj::Char)="(Char,$(Int(obj)))"
+encode(obj::RGB)="(RGB,$(obj.r),$(obj.g),$(obj.b))"
 function encode(obj::Vector)
 	l=length(obj)
 	if l==0
@@ -155,7 +157,11 @@ function decode(s::String)
 			b[i]=decode(a[i])
 		end
 		f=eval(Symbol(name))
-		return f(b...)
+		if hasmethod(decoder,(f,Vector{Any}))
+			return decoder(f(),b)
+		else
+			return f(b...)
+		end
 	elseif '0'<=c<='9'
 		fl=true
 		for i in 1:length(s)
