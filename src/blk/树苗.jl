@@ -1,6 +1,7 @@
 mutable struct 树苗<:固体
 	t::UInt8
 end
+text(b::树苗)=langs[:木name][b.t]*langs[:name][:树苗]
 function upd(b::树苗,x::Int,y::Int)
 	r=crand()
 	if r>>3!=0

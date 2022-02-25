@@ -19,3 +19,10 @@ function load_game(path::String)
 	cd(path)
 	g.set=read_code("setting.fw")
 end
+function get_loadedimg(s::String)
+	if haskey(loadedimgs,s)
+		return @inbounds loadedimgs[s]
+	else
+		return loadedimgs["notexture"]
+	end
+end

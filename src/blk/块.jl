@@ -2,6 +2,7 @@ mutable struct 块<:固体
 	mat::Material
 end
 id(b::块)="$(b.mat)块"
+text(b::块)=langs[:name][typeof(b.mat).name.name]*langs[:name][:块]
 hard(b::块)=hard(b.mat)
 function i_show(b::块,con)
 	iid=id(b)

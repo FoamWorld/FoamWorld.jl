@@ -2,6 +2,7 @@ mutable struct 桶
 	t::UInt8
 end
 id(i::桶)="桶$(i.t)"
+text(i::桶)=String(装液体table[i.t])*langs[:name][:桶]
 stack(::桶)=0x1
 c_use(::桶)=true
 function use(i::桶;par,needupdg::Bool)

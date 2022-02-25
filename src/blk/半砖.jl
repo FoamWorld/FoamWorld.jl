@@ -3,6 +3,7 @@ mutable struct 半砖<:固体
 	dire::UInt8
 end
 id(b::半砖)="$(b.mat)半砖"
+text(b::半砖)=langs[:name][typeof(b.mat).name.name]*langs[:name][:半砖]
 hard(b::半砖)=hard(b.mat)
 hole(::半砖)=true
 function i_show(b::半砖,con)

@@ -7,6 +7,20 @@ mutable struct Befunge
 	ext::Dict{Symbol,Any}
 end
 Befunge(dire::UInt8=0x1)=Befunge(dire,false,false,[],nothing,Dict{Symbol,Any}(:message=>"hello, world"))
+function i_show(::Befunge,con)
+	clear_rect(con,0,0;color=:slategray)
+	so=get_loadedimg("Befunge")
+	fill_image(con,so,2,2,28,28)
+end
+function b_show(b::Befunge,con,x::Int,y::Int)
+	so=get_loadedimg("Befunge")
+	if b.on===nothing
+		fill_image(con,so,x,y)
+	else
+		clear_rect(con,x,y;color=b.on.background_color)
+		fill_image(con,so,x+2,y+2,28,28)
+	end
+end
 function upd(b::Befunge,x::Int,y::Int)
 	if b.on===nothing
 		b.error=true

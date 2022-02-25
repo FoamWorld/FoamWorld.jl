@@ -31,11 +31,7 @@ function e_use(b::告示牌)
 end
 function b_show(b::告示牌,con,x::Int,y::Int)
 	bid=id(b)
-	if haskey(loadedimgs,bid)
-		so=@inbounds loadedimgs[iid]
-	else
-		so=loadedimgs["notexture"]
-	end
+	so=get_loadedimg(bid)
 	fill_image(con,so,x,y)
 	push!(after_show,function() fill_text(con,b.str;color=b.color) end)
 end

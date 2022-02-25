@@ -1,24 +1,17 @@
 abstract type Block end
 id(b::Block)=String(typeof(b).name.name)
+text(b::Block)=langs[:name][typeof(b).name.name]
 stack(::Block)=0x4
 c_use(::Block)=false
 function i_show(i::Block,con)
 	if hole(i) clear_rect(con,0,0;color=:slategray) end
 	iid=id(i)
-	if haskey(loadedimgs,iid)
-		so=@inbounds loadedimgs[iid]
-	else
-		so=loadedimgs["notexture"]
-	end
+	so=get_loadedimg(iid)
 	fill_image(con,so,0,0)
 end
 function b_show(b::Block,con,x::Int,y::Int)
 	bid=id(b)
-	if haskey(loadedimgs,bid)
-		so=@inbounds loadedimgs[iid]
-	else
-		so=loadedimgs["notexture"]
-	end
+	so=get_loadedimg(bid)
 	fill_image(con,so,x,y)
 end
 function hard(b::Block)
