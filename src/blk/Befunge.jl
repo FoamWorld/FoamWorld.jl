@@ -4,16 +4,27 @@ mutable struct Befunge
 	error::Bool # 是否出现过错误
 	stack::Vector{Int}
 	on::Union{Nothing,地毯}
-	ext::Dict{Symbol,Any}
+	ext::Dict{Symbol,String}
 end
-Befunge(dire::UInt8=0x1)=Befunge(dire,false,false,[],nothing,Dict{Symbol,Any}(:message=>"hello, world"))
+Befunge(dire::UInt8=0x1)=Befunge(dire,false,false,[-1],nothing,Dict{Symbol,Any}(:message=>"hello, world"))
 function i_show(::Befunge,con)
 	clear_rect(con,0,0;color=:slategray)
-	so=get_loadedimg("Befunge")
+	so=get_loadedimg("Befunge0")
 	fill_image(con,so,2,2,28,28)
 end
 function b_show(b::Befunge,con,x::Int,y::Int)
-	so=get_loadedimg("Befunge")
+	if b.error
+		so=get_loadedimg("Befunge1")
+	else
+		so::Matrix=get_loadedimg("Befunge0")
+		if so.dire==0x2
+			so=rotr90(so)
+		elseif so.dire==0x3
+			so=rot180(so)
+		elseif so.dire==0x4
+			so=rotr90(so)
+		end
+	end
 	if b.on===nothing
 		fill_image(con,so,x,y)
 	else
