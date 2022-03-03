@@ -1,7 +1,7 @@
 abstract type Item end
 id(i::Item)=String(typeof(i).name.name)
 text(i::Item)=langs[:name][typeof(i).name.name]
-stack(::Item)=0xf # 15
+stack(::Item)=0x10 # 16
 c_use(::Item)=false
 1_use(::Item)=true
 t_blk(::Item)=missing

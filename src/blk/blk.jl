@@ -32,7 +32,7 @@ function li_show(b::Block,x::Int,y::Int;arr::SMatrix{31,31,Bool,961})
 	for i in 1:li<<1|1
 		for j in 1:li<<1|1 arr[i,j]=false end
 	end
-	xq=[0];yq=[0],lq=[li] # 任务队列
+	xq=[0];yq=[0];lq=[li] # 任务队列
 	while !isempty(lq)
 		xx=popfirst!(xq);yy=popfirst!(yq);l=popfirst!(lq)
 		arr[xx+16,yy+16]=true
