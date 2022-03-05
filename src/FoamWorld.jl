@@ -1,6 +1,6 @@
 module FoamWorld
+using Gtk
 using StaticArrays
-using GtkObservables
 # 宏变量
 include("consts.jl")
 include("globals.jl")
@@ -24,5 +24,6 @@ include("ent/ent.jl")
 include("gen/gen.jl")
 include("itm/itm.jl")
 include("mat/mat.jl")
+include("sta/sta.jl")
 
 end # module

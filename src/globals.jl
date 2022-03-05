@@ -10,5 +10,8 @@ ltemp, # 临时数据表
 curpage, # 当前页名称
 window, # 当前窗口
 winbox, # window下的box
+curui, # 当前打开的GUI板
 dcon, # 画板上下文
-loadedimgs # 已加载的图片
+loadedimgs, # 已加载的图片
+after_show=[], # show后调用
+curuse # 当前使用的东西
