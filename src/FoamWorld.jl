@@ -20,6 +20,7 @@ include("tick.jl")
 
 # 细节
 include("blk/blk.jl")
+include("cmd/cmd.jl")
 include("ent/ent.jl")
 include("gen/gen.jl")
 include("itm/itm.jl")

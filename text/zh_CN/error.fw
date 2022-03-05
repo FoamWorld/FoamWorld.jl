@@ -1,0 +1,6 @@
+{
+&cmd:{
+	&unfound_command:"未找到该指令",
+	&wrong_parameter_number:"参数数量错误",
+}
+}
