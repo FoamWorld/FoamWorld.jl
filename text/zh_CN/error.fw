@@ -1,6 +1,9 @@
 {
 &cmd:{
+	&request_block:"要求的参数为方块类型",
+	&request_item:"要求的参数为物品类型",
+	&too_much_parameters:"参数过多",
+	&too_little_parameters:"参数过少",
 	&unfound_command:"未找到该指令",
-	&wrong_parameter_number:"参数数量错误",
 }
 }

@@ -4,20 +4,24 @@ end
 struct SubLangData
 	ref::Dict
 end
-function getindex(l::LangData,key::Symbol)
+function Base.getindex(l::LangData,key::Symbol)
 	return SubLangData(l.langs[lsetting[:lang]][key])
 end
-function getindex(l::SubLangData,key)
-	if haskey(l.ref,key)
-		@inbounds r=l.ref[key]
-		if isa(r,Dict)
-			return SubLangData(r)
+function Base.getindex(l::SubLangData,keys...)
+	d=l
+	for key in keys
+		if haskey(d.ref,key)
+			@inbounds r=d.ref[key]
+			if isa(r,Dict)
+				d=SubLangData(r)
+			else
+				return r
+			end
 		else
-			return r
+			return "$key"
 		end
-	else
-		return "$key"
 	end
+	return d
 end
 function load_langdata_fromdir!(ld::LangData,lang::Symbol,dirpath::String)
 	ld.langs[lang]=Dict{Symbol,Dict}()

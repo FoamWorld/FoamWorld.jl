@@ -4,6 +4,8 @@ function gui_init_all()
 end
 function gtk_leave_all()
 end
+# 工具
+gtk_showstr(s::String)=GtkTextView(;editable=false,buffer=GtkTextBuffer(;text=s))
 # 主菜单
 function gui_主菜单_init()
 	global winbox=GtkBox(:v)
@@ -25,7 +27,25 @@ function gui_设置_init()
 	set_username_box=Box(:h)
 end
 # game
-function info_log(s::String)
+function info_clear()
+	global infobox=GtkBox(:h)
 end
-info_error(s::Symbol)=info_log(langs[:error][s])
-info_help(s::Symbol)=info_log(langs[:help][s])
+function info_log(s::String,color::RGB=RGB(0x0,0x0,0x0))
+	push!(infobox,gtk_showstr(s))
+end
+function info_error(s::Symbol...;extra::String="")
+	t=langs[:error][s...]
+	if extra!=""
+		t*=": $extra"
+	end
+	info_log(t,RGB(0xff,0x0,0x0))
+end
+function info_help(s::Symbol...;extra::String="")
+	if gsetting[:show_help]
+		t=langs[:help][s...]
+		if extra!=""
+			t*=": $extra"
+		end
+		info_log(t,RGB(0xff,0xff,0x0))
+	end
+end
