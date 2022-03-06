@@ -1,5 +1,6 @@
 global gsetting, # 泛设置
 langs, # 当前语言内容
+data, # 当前打开的数据
 game, # 当前游戏
 lsetting, # 当前游戏设置
 ply, # 当前玩家

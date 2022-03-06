@@ -16,8 +16,8 @@ function b_show(b::Block,con,x::Int,y::Int)
 end
 function hard(b::Block)
 	bid=id(b)
-	if haskey(硬度dict,bid)
-		return 硬度dict[bid]::UInt8
+	if haskey(data[:硬度dict],bid)
+		return data[:硬度dict][bid]::UInt8
 	end
 	return 0x0
 end
