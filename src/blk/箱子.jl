@@ -3,7 +3,7 @@ mutable struct 箱子<:固体
 end
 箱子()=箱子(IB(16))
 c_use(::箱子)=true
-function use(b::箱子)
+function use(b::箱子,::Int,::Int)
 	global curui=build_blk_gui()
 	gr=GtkGrid()
 	push!(curui,gr)

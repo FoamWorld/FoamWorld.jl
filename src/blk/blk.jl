@@ -3,6 +3,7 @@ id(b::Block)=String(typeof(b).name.name)
 text(b::Block)=langs[:name][typeof(b).name.name]
 stack(::Block)=0x4
 c_use(::Block)=false
+use(::Block,::Int,::Int)=nothing
 function i_show(i::Block,con)
 	if hole(i) clear_rect(con,0,0;color=:slategray) end
 	iid=id(i)
@@ -26,8 +27,7 @@ hole(::Block)=false
 e_put(::Block,::Int,::Int)=nothing
 exist(::Block,::Int,::Int)=nothing
 e_exist(::Block,::Int,::Int)=nothing
-function li_show(b::Block,x::Int,y::Int;arr::SMatrix{31,31,Bool,961})
-	li::UInt8=light(b)
+function li_show(b::Block,x::Int,y::Int,li::UInt8=light(b);arr::SMatrix{31,31,Bool,961})
 	if li==0x0 return end
 	for i in 1:li<<1|1
 		for j in 1:li<<1|1 arr[i,j]=false end

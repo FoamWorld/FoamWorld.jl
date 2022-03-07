@@ -4,7 +4,7 @@ mutable struct 告示牌<:固体
 end
 告示牌(str::String="",color::RGB=RGB(0x0,0x0,0x0))=告示牌(str,color)
 c_use(::告示牌)=true
-function use(b::告示牌)
+function use(b::告示牌,::Int,::Int)
 	global curui=build_blk_gui()
 	gr=GtkGrid()
 	push!(curui,gr)
