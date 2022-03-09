@@ -5,8 +5,8 @@ stack(::Item)=0x10 # 16
 c_use(::Item)=false
 1_use(::Item)=true
 t_blk(::Item)=missing
-function i_show(i::Item,con=dcon;theme=:slategray)
-	clear_rect(con,0,0;color=theme)
+function i_show(i::Item,con=dcon)
+	clear_rect(con,0,0;color=RGB(0x70,0x80,0x90))
 	i_show_l(i,con)
 end
 function i_show_l(i::Item,con)

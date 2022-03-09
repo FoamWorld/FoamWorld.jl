@@ -5,7 +5,7 @@ id(i::桶)="桶$(i.t)"
 text(i::桶)=String(data[:装液体table][i.t])*langs[:name][:桶]
 stack(::桶)=0x1
 c_use(::桶)=true
-function use(i::桶)
+function use(i::桶,::Target,::Target)
 	po=gpos_mouse()
 	if po===nothing return end
 	b=blk(dim,po.first,po.second)

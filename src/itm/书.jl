@@ -11,7 +11,7 @@ function local_gb(s::String,f::Function)
 	signal_connect(b,function() f(curuse) end,"clicked")
 	return b
 end
-function use(i::书)
+function use(i::书,::Target,::Target)
 	global curui=build_itm_gui()
 	gr=GtkGrid()
 	push!(curui,gr)

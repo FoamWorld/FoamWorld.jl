@@ -5,7 +5,7 @@ stack(::Block)=0x4
 c_use(::Block)=false
 use(::Block,::Int,::Int)=nothing
 function i_show(i::Block,con)
-	if hole(i) clear_rect(con,0,0;color=:slategray) end
+	if hole(i) clear_rect(con,0,0;color=RGB(0x70,0x80,0x90)) end
 	iid=id(i)
 	so=get_loadedimg(iid)
 	fill_image(con,so,0,0)
