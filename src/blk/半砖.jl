@@ -33,13 +33,13 @@ function b_show(b::半砖,con,x::Int,y::Int)
 	end
 end
 function colbox(b::半砖,x::Int,y::Int)
-	if b.dire==0x0 return BCollisionBox{Float64}(x,y,x+1,y+0.5)
-	elseif b.dire==0x1 return BCollisionBox{Float64}(x+0.5,y,x+1,y+1)
-	elseif b.dire==0x2 return BCollisionBox{Float64}(x,y+0.5,x+1,y+1)
-	else return BCollisionBox{Float64}(x,y,x+0.5,y+1)
+	if b.dire==0x0 return BCollisionBox{Float}(x,y,x+1,y+0.5)
+	elseif b.dire==0x1 return BCollisionBox{Float}(x+0.5,y,x+1,y+1)
+	elseif b.dire==0x2 return BCollisionBox{Float}(x,y+0.5,x+1,y+1)
+	else return BCollisionBox{Float}(x,y,x+0.5,y+1)
 	end
 end
-function e_put(b::半砖,x::Float64,y::Float64)
+function e_put(b::半砖,x::Float,y::Float)
 	x0=x-ply.x;y0=y-ply.y
 	if x0>0
 		if x0<y0 b.dire=0x2

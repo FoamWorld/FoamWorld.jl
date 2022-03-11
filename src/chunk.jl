@@ -1,7 +1,7 @@
 mutable struct Chunk
 	blks::SMatrix{64,64,Block,4096}
 	ligs::SVector{UInt8,2048}
-	tm::UInt
+	tm::Int
 end
 function get_lig(c::Chunk,x::Int,y::Int)::UInt8
 	id=(x<<5)|(y>>1)+1
@@ -23,7 +23,7 @@ function generate(c::Chunk,x::Int,y::Int;map_generator::MapGenerator)
 	end
 end
 mutable struct Dimension
-	cs::Dict{Complex{Int64},Chunk}
+	cs::Dict{Pair{Int,Int},Chunk}
 end
 mutable struct Game
 	ds::Dict{String,Dimension}
