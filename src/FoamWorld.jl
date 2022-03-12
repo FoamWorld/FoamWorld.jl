@@ -17,6 +17,7 @@ include("codes.jl")
 include("chunk.jl")
 include("saves.jl")
 include("tick.jl")
+include("operation.jl")
 
 # 细节
 include("blk/blk.jl")

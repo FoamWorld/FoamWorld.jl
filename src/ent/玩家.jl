@@ -13,7 +13,7 @@ function updg(p::玩家)
 		return
 	end
 end
-function move(p::玩家,x::Float,y::Float)
+function move!(p::玩家,x::Float,y::Float)
 	col=colbox(p,x,y)
 	v::Pair=collide_move(col,dim,x,y)
 	p.x+=v.first
@@ -24,4 +24,5 @@ function move(p::玩家,x::Float,y::Float)
 		# if p===ply info_help(:event,:away_from_using_blk)
 	end
 end
+steplength(::玩家)=0.3
 wneed_updg(p::玩家)=p===ply
