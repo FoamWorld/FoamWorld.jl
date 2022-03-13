@@ -2,7 +2,7 @@ mutable struct 水<:液体
 	depth::UInt8
 end
 水()=水(0x3)
-b_show(b::水,con,x::Int,y::Int)=fill_rect(con,x,y;color=RGB(0x40-b.depth<<4,0x50-b.depth<<4,0xf0-b.depth<<4))
+b_show(b::水,con,x::Int,y::Int)=fill_rect(con,x,y;color=RGB_(0x40-b.depth<<4,0x50-b.depth<<4,0xf0-b.depth<<4))
 function upd(b::水,x::Int,y::Int)
 	if lsetting[:t]&0x3!=0x0 return end
 	if b.depth==0x0

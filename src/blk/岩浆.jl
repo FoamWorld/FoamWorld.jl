@@ -2,7 +2,7 @@ mutable struct 岩浆<:液体
 	depth::UInt8
 end
 岩浆()=岩浆(0x3)
-b_show(b::岩浆,con,x::Int,y::Int)=fill_rect(con,x,y;color=RGB(0xff,0xff,[0xa0,0xf0,0xfe,0xff][b.depth+1]))
+b_show(b::岩浆,con,x::Int,y::Int)=fill_rect(con,x,y;color=RGB_(0xff,0xff,[0xa0,0xf0,0xfe,0xff][b.depth+1]))
 function upd(b::岩浆,x::Int,y::Int)
 	if lsetting[:t]&0x3!=0x0 return end
 	if b.depth==0x0

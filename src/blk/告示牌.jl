@@ -2,7 +2,7 @@ mutable struct 告示牌<:固体
 	str::String
 	color::RGB
 end
-告示牌(str::String="",color::RGB=RGB(0x0,0x0,0x0))=告示牌(str,color)
+告示牌(str::String="",color::RGB=RGB(0,0,0))=告示牌(str,color)
 c_use(::告示牌)=true
 function use(b::告示牌,::Int,::Int)
 	global curui=build_blk_gui()

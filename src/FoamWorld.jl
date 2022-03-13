@@ -1,6 +1,8 @@
 module FoamWorld
 using Gtk
 using StaticArrays
+using ColorTypes
+using FixedPointNumbers
 # 宏变量
 include("consts.jl")
 include("globals.jl")

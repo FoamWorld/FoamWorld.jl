@@ -5,6 +5,7 @@ end
 function gtk_leave_all()
 end
 # 工具
+RGB_(r::UInt8,g::UInt8,b::UInt8)=RGB(reinterpret(N0f8,r),reinterpret(N0f8,g),reinterpret(N0f8,b))
 gtk_showstr(s::String)=GtkTextView(;editable=false,buffer=GtkTextBuffer(;text=s))
 # 主菜单
 function gui_主菜单_init()
@@ -30,7 +31,7 @@ end
 function info_clear()
 	global infobox=GtkBox(:h)
 end
-function info_log(s::String,color::RGB=RGB(0x0,0x0,0x0))
+function info_log(s::String,color::RGB=RGB(0,0,0))
 	push!(infobox,gtk_showstr(s))
 end
 function info_error(s::Symbol...;extra::String="")
@@ -38,7 +39,7 @@ function info_error(s::Symbol...;extra::String="")
 	if extra!=""
 		t*=": $extra"
 	end
-	info_log(t,RGB(0xff,0x0,0x0))
+	info_log(t,RGB(1,0,0))
 end
 function info_help(s::Symbol...;extra::String="")
 	if gsetting[:show_help]
@@ -46,6 +47,6 @@ function info_help(s::Symbol...;extra::String="")
 		if extra!=""
 			t*=": $extra"
 		end
-		info_log(t,RGB(0xff,0xff,0x0))
+		info_log(t,RGB(1,1,0))
 	end
 end
