@@ -12,13 +12,13 @@ function set_lig(c::Chunk,x::Int,y::Int,v::UInt8)::UInt8
 	(y&1==0) ? c.ligs[id]=c.ligs[id]&0xf|(v<<4) : c.ligs[id]=c.ligs[id]&0xf0|v
 end
 function generate(c::Chunk,x::Int,y::Int;map_generator::MapGenerator)
-	map_generator.gchunk(c,x,y)
+	use(map_generator,c,x,y)
 	if haskey(sav,Pair(x,y))
 		t=@inbounds sav[Pair(x,y)]
 		for i in t
 			x0=i.first>>6
 			y0=i.first&63
-			c.bs[x0,y0]=i.second
+			c.blks[x0,y0]=i.second
 		end
 	end
 end
