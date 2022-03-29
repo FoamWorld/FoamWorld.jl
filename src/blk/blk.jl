@@ -4,7 +4,7 @@ text(b::Block)=langs[:name][typeof(b).name.name]
 stack(::Block)=0x4
 c_use(::Block)=false
 use(::Block,::Int,::Int)=nothing
-function i_show(i::Block,con)
+function i_show(i::Block,con::DrawContext)
 	if hole(i) clear_rect(con,0,0;color=RGB_(0x70,0x80,0x90)) end
 	iid=id(i)
 	so=get_loadedimg(iid)
@@ -78,6 +78,8 @@ include("半砖.jl")
 include("冰.jl")
 include("地毯.jl")
 include("告示牌.jl")
+include("合成台.jl")
+include("结构方块.jl")
 include("块.jl")
 include("木板.jl")
 include("树苗.jl")

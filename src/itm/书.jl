@@ -5,7 +5,7 @@ end
 书()=书([""],1)
 stack(::书)=0x1
 c_use(::书)=true
-1_use(::书)=false
+one_use(::书)=false
 function local_gb(s::String,f::Function)
 	b=GtkButton(s)
 	signal_connect(b,function() f(curuse) end,"clicked")

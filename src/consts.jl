@@ -13,4 +13,5 @@ dirr=[2,3,4,1,6,7,8,5],
 diroppo=[3,4,1,2,7,8,5,6]
 
 const Float=Float64,
-Target=Union{Entity,Block}
+Target=Union{Entity,Block},
+DrawContext=GraphicsContext

@@ -4,7 +4,7 @@ end
 id(b::块)="$(b.mat)块"
 text(b::块)=langs[:name][typeof(b.mat).name.name]*langs[:name][:块]
 hard(b::块)=hard(b.mat)
-function i_show(b::块,con)
+function i_show(b::块,con::DrawContext)
 	iid=id(b)
 	if haskey(loadedimgs,iid)
 		so=@inbounds loadedimgs[iid]

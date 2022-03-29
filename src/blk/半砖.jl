@@ -6,7 +6,7 @@ id(b::半砖)="$(b.mat)半砖"
 text(b::半砖)=langs[:name][typeof(b.mat).name.name]*langs[:name][:半砖]
 hard(b::半砖)=hard(b.mat)
 hole(::半砖)=true
-function i_show(b::半砖,con)
+function i_show(b::半砖,con::DrawContext)
 	iid=id(b)
 	if haskey(loadedimgs,iid)
 		so=@inbounds loadedimgs[iid]

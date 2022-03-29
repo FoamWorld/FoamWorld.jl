@@ -6,7 +6,7 @@ end
 ws6(c::UInt8)=c<10 ? c+'0' : '7'+c # 'A'-10
 wsrgb(x::RGB)=ws6(x.r>>4)*ws6(x.r&15)*ws6(x.g>>4)*ws6(x.g&15)*ws6(x.b>>4)*ws6(x.b&15)
 id(b::地毯)="$(wsrgb(b.background_color))底$(wrgb(b.color))色$(Int(b.text))地毯"
-function i_show(i::地毯,con)
+function i_show(i::地毯,con::DrawContext)
 	fill_rect(con,0,0;color=i.background_color)
 	fill_text(con,i.text,4,4;color=i.color,size=24)
 end
