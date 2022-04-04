@@ -39,17 +39,6 @@ function colbox(b::半砖,x::Int,y::Int)
 	else return BCollisionBox{Float}(x,y,x+0.5,y+1)
 	end
 end
-function e_put(b::半砖,x::Float,y::Float)
-	x0=x-ply.x;y0=y-ply.y
-	if x0>0
-		if x0<y0 b.dire=0x2
-		elseif x0<-y0 b.dire=0x0
-		else b.dire=0x1
-		end
-	else
-		if x0>y0 b.dire=0x0
-		elseif x0>-y0 b.dire=0x2
-		else b.dire=0x3
-		end
-	end
+function e_put(b::半砖,x::Int,y::Int)
+	b.dire=calc_facing(x,y)
 end

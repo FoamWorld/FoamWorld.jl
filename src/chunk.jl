@@ -133,9 +133,25 @@ function setblk(x::Int,y::Int,b::Block;player_put::Bool=false)
 	c=chk(dim,lx,ly)
 	e_exist(c.blks[tx,ty],x,y)
 	c.blks[tx,ty]=b
-	exist(b,x,y)
 	if player_put
 		e_put(b,x,y)
+	else
+		exist(b,x,y)
 	end
 	pushsave(lx,ly,tx,ty,b)
+end
+
+function calc_facing(x::Int,y::Int;to::Entity=ply)
+	x0=x-to.x;y0=y-to.y
+	if x0>0
+		if x0<y0 return 0x2
+		elseif x0<-y0 return 0x0
+		else return 0x1
+		end
+	else
+		if x0>y0 return 0x0
+		elseif x0>-y0 return 0x2
+		else return 0x3
+		end
+	end
 end
