@@ -56,6 +56,11 @@ stack(::DI)=0x1
 @iwraps DI c_use one_use use e_use updg t_blk
 i_show(i::DI,con::DrawContext)=i_show(i.wr,con::DrawContext)
 
+include("模具.jl")
 include("书.jl")
 include("桶.jl")
 abstract type 零件<:Item end
+id(i::零件)="$(i.mat)$(typeof(i).name.name)"
+text(i::零件)=langs[:name][typeof(i.mat).name.name]*langs[:name][typeof(i).name.name]
+include("薄板.jl")
+include("锭.jl")
