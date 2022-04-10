@@ -1,14 +1,15 @@
-encode(obj::String)="\"$(en_str(obj))\""
+encode(obj::String)="\"$(esc_str2(obj))\""
 encode(obj::Bool)=obj ? "T" : "F"
 encode(obj::Missing)="mis"
 encode(obj::Nothing)="n"
 encode(obj::Number)=string(obj)
-encode(obj::Symbol)="&$obj" # 只允许文字和下划线
+encode(obj::Symbol)="&\"$(escape_string(obj))\""
 encode(obj::Char)="(Char,$(Int(obj)))"
-encode(obj::RGB)="(RGB,$(obj.r),$(obj.g),$(obj.b))"
+encode(obj::RGB)="(RGB_N0f8,$(obj.r.i),$(obj.g.i),$(obj.b.i))"
+RGB_N0f8(r::Int,g::Int,b::Int)=RGB{N0f8}(r,g,b)
 function encode(obj::Vector)
 	l=length(obj)
-	if l==0
+	if isempty(l)
 		return "[]"
 	end
 	s="[$(encode(obj[1]))"
@@ -140,9 +141,9 @@ function decode(s::String)
 	end
 	s=clean_str(s)
 	c=s[1]
-	if c=='"'
-		return de_str(s[2:end-1])
+	if c=='"' return unesc_str2(s[2:end-1])
 	elseif c=='&'
+		if s[2]=='"' return Symbol(unesc_str2(s[3:end-1])) end
 		return Symbol(s[2:end])
 	elseif c=='['
 		return decode_get_elements(s[2:end-1])
@@ -157,11 +158,7 @@ function decode(s::String)
 			b[i]=decode(a[i])
 		end
 		f=eval(Symbol(name))
-		if hasmethod(decoder,(f,Vector{Any}))
-			return decoder(f(),b)
-		else
-			return f(b...)
-		end
+		return f(b...)
 	elseif '0'<=c<='9'
 		fl=true
 		for i in 1:length(s)

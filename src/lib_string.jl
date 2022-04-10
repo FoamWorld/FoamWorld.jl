@@ -28,51 +28,6 @@ function split_cmd(s::String)
 	end
 	return v
 end
-function en_str(s::String)
-	e=""
-	for i in s
-		if i=='#'
-			e*="#i"
-		elseif i=='"'
-			e*="#q"
-		elseif i=='\n'
-			e*="#n"
-		elseif i=='\t'
-			e*="#t"
-		elseif i=='\r'
-			e*="#r"
-		else
-			e*=i
-		end
-	end
-	return e
-end
-function de_str(s::String)
-	d="";mark=false
-	for i in s
-		if mark
-			if i=='i'
-				d*='#'
-			elseif i=='q'
-				d*='"'
-			elseif i=='n'
-				d*='\n'
-			elseif i=='t'
-				d*='\t'
-			elseif i=='r'
-				d*='\r'
-			end
-			mark=false
-			continue
-		end
-		if i=='#'
-			mark=true
-		else
-			d*=i
-		end
-	end
-	return d
-end
 function clean_str(s::String)
 	a=""
 	for i in s
@@ -82,3 +37,15 @@ function clean_str(s::String)
 	end
 	return a
 end
+function esc_str2(io::IO,s::AbstractString)
+	for c::AbstractChar in s
+		c=='"' ? print(io,"\\=") :
+		c=='\'' ? print(io,"\\-") :
+		c=='\0' ? print(io,"\\0") :
+		c=='\e' ? print(io,"\\e") :
+		c=='\\' ? print(io,"\\/") :
+		'\a'<=c<='\r' ? print(io,'\\',"abtnvfr"[Int(c)-6]) :
+		print(io,c)
+	end
+end
+esc_str2(s::AbstractString)=sprint(escape_string,s;sizehint=lastindex(s))

@@ -7,11 +7,7 @@ function guess_struct(s::String)
 		b[i]=decode(a[i])
 	end
 	f=eval(Symbol(name))
-	if hasmethod(decoder,(f,Vector{Any}))
-		return decoder(f(),b)
-	else
-		return f(b...)
-	end
+	return f(b...)
 end
 function work_command(s::String;commander=ply)
 	v::Vector{String}=split_cmd(s)
