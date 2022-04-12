@@ -1,4 +1,4 @@
-mutable struct Befunge
+mutable struct Befunge<:固体
 	dire::UInt8
 	coll::Bool
 	error::Bool # 是否出现过错误
