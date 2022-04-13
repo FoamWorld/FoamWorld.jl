@@ -102,3 +102,9 @@ struct 闪长岩<:岩石 end
 struct 黑曜岩<:岩石 end
 struct 萤石<:岩石 end
 light(::萤石)=0xc
+
+abstract type 花<:固体 end
+colbox(::花)=EmptyCollisionBox()
+transparent(::花)=true
+hole(::花)=true
+struct 番红花<:固体 end ; binomial_nomenclature(::番红花)=Pair("Crocus","sativus")

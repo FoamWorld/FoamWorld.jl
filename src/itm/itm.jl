@@ -63,4 +63,5 @@ abstract type 零件<:Item end
 id(i::零件)="$(i.mat)$(typeof(i).name.name)"
 text(i::零件)=langs[:name][typeof(i.mat).name.name]*langs[:name][typeof(i).name.name]
 include("薄板.jl")
-include("锭.jl")
+mutable struct 锭<:零件 mat::Material end
+mutable struct 棍<:零件 mat::Material end

@@ -1,4 +1,4 @@
-struct 结构方块<:固体
+mutable struct 结构方块<:固体
 	name::String
 	x::Int
 	y::Int
