@@ -1,12 +1,13 @@
 mutable struct Befunge<:固体
 	dire::UInt8
 	coll::Bool
-	error::Bool # 是否出现过错误
+	error::Bool
 	stack::Vector{Int}
 	on::Union{Nothing,地毯}
-	ext::Dict{Symbol,String}
+	input::IO
+	output::String
 end
-Befunge(dire::UInt8=0x1)=Befunge(dire,false,false,[-1],nothing,Dict{Symbol,Any}(:message=>"hello, world"))
+Befunge(dire::UInt8=0x1)=Befunge(dire,false,false,[-1],nothing,stdin,"")
 function i_show(::Befunge,con::DrawContext)
 	clear_rect(con,0,0;color=:slategray)
 	so=get_loadedimg("Befunge0")
@@ -45,69 +46,49 @@ function upd(b::Befunge,x::Int,y::Int)
 		wmove(b,x,y)
 		return
 	end
-	if tx=='^' b.dire=0x1
-	elseif tx=='>' b.dire=0x2
-	elseif tx=='v' b.dire=0x3
-	elseif tx=='<' b.dire=0x4
-	elseif tx=='?' b.dire=crandom(1,4)
-	elseif tx=='_'
-		if isempty(bs) b.error=true;return end
-		p=pop!(bs)
-		if p==0 b.dire=0x2
-		else b.dire=0x4 end
-	elseif tx=='|'
-		if isempty(bs) b.error=true;return end
-		p=pop!(bs)
-		if p==0 b.dire=0x3
-		else b.dire=0x1 end
-	elseif tx=='+'
-		if length(bs)<2 b.error=true;return end
-		fi=pop!(bs)
-		se=pop!(bs)
-		push!(bs,fi+se)
-	elseif tx=='-'
-		if length(bs)<2 b.error=true;return end
-		fi=pop!(bs)
-		se=pop!(bs)
-		push!(bs,se-fi)
-	elseif tx=='*'
-		if length(bs)<2 b.error=true;return end
-		fi=pop!(bs)
-		se=pop!(s)
-		push!(bs,fi*se)
-	elseif tx=='/'
-		if length(bs)<2 b.error=true;return end
-		fi=pop!(bs)
-		se=pop!(bs)
-		push!(bs,div(se,fi))
-	elseif tx=='%'
-		if length(bs)<2 b.error=true;return end
-		fi=pop!(bs)
-		se=pop!(bs)
-		push!(bs,mod(se,fi))
-	elseif tx=='!'
-		if isempty(bs) b.error=true;return end
-		p=pop!(bs)
-		push!(bs,p==0 ? 0 : 1)
-	elseif tx=='`'
-		if length(bs)<2 b.error=true;return end
-		fi=pop!(bs)
-		se=pop!(bs)
-		push!(bs,se>fi ? 1 : 0)
-	elseif '0'<=tx<='9'
-		push!(bs,tx-'0')
-	elseif tx==':'
-		if isempty(bs) b.error=true;return end
-		push!(bs,last(bs))
-	elseif tx=='\\'
-		if length(bs)<2 b.error=true;return end
-		fi=pop!(bs)
-		se=pop!(bs)
-		push!(bs.fi)
-		push!(bs,se)
-	elseif tx=='$'
-		if isempty(bs) b.error=true;return end
-		pop!(bs)
+	try
+		tx=='+' ? begin fi=pop!(bs);se=pop!(bs);push!(bs,fi+se) end :
+		tx=='-' ? begin fi=pop!(bs);se=pop!(bs);push!(bs,se-fi) end :
+		tx=='*' ? begin fi=pop!(bs);se=pop!(bs);push!(bs,fi*se) end :
+		tx=='/' ? begin fi=pop!(bs);se=pop!(bs);push!(bs,div(se,fi,RoundDown)) end :
+		tx=='%' ? begin fi=pop!(bs);se=pop!(bs);push!(bs,mod(se,fi)) end :
+		tx=='!' ? begin p=pop!(bs);push!(bs,p==0 ? 0 : 1) end :
+		tx=='`' ? begin fi=pop!(bs);se=pop!(bs);push!(bs,se>fi ? 1 : 0) end :
+		tx=='>' ? begin b.dire=0x2 end :
+		tx=='<' ? begin b.dire=0x4 end :
+		tx=='^' ? begin b.dire=0x1 end :
+		tx=='v' ? begin b.dire=0x3 end :
+		tx=='?' ? begin b.dire=crandom(1,4) end :
+		tx=='_' ? begin p=pop!(bs);b.dire=p==0 ? 0x2 : 0x4 end :
+		tx=='|' ? begin p=pop!(bs);b.dire=p==0 ? 0x3 : 0x1 end :
+		# "
+		tx==':' ? begin push!(bs,last(bs)) end :
+		tx=='\\' ? begin fi=pop!(bs);se=pop!(bs);push!(bs.fi);push!(bs,se) end :
+		tx=='$' ? begin pop!(bs) end :
+		tx=='.' ? begin b.output*=string(pop!(bs)) end :
+		tx==',' ? begin b.output*=Char(pop!(bs)) end :
+		tx=='#' ? begin wmove(b,x,y);x+=direx[b.dire];y+=direy[b.dire] end :
+		tx=='g' ? begin
+			y=pop!(bs);x=pop!(bs)
+			blk=getblk(x,y)
+			if isa(blk,地毯) push!(bs,wtext(blk))
+			else throw(true)
+			end
+		end :
+		tx=='p' ? begin
+			y=pop!(bs);x=pop!(bs);v=pop!(bs)
+			blk=getblk(x,y)
+			if isa(blk,地毯) blk.text=Char(v)
+			else throw(true)
+			end
+		end :
+		tx=='&' ? begin int=parse(Int,readline(b.input));push!(bs,int) end :
+		tx=='~' ? begin char=read(b.input,Char);push!(bs,Int(char)) end :
+		tx=='@' ? begin return end :
+		'0'<=tx<='9' ? begin push!(bs,tx-'0') end : nothing
+	catch
+		b.error=true
+		return
 	end
 	wmove(b,x,y)
 end

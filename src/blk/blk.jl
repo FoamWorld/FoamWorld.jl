@@ -107,4 +107,4 @@ abstract type 花<:固体 end
 colbox(::花)=EmptyCollisionBox()
 transparent(::花)=true
 hole(::花)=true
-struct 番红花<:固体 end ; binomial_nomenclature(::番红花)=Pair("Crocus","sativus")
+struct 番红花<:花 end ; binomial_nomenclature(::番红花)=Pair("Crocus","sativus")
