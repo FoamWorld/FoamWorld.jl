@@ -136,6 +136,8 @@ function decode(s::String)
 		return nothing
 	elseif s=="Inf"
 		return Inf
+	elseif s=="-Inf"
+		return -Inf
 	elseif s=="NaN"
 		return NaN
 	end

@@ -1,0 +1,16 @@
+{
+&Normal:{
+	&break_all:F,
+	&inf_item:F,
+	&inf_use:F,
+	&reach_all:F,
+	&see_all:F,
+},
+&"Apex Tier Pluripotent Entity":{
+	&break_all:T,
+	&inf_item:T,
+	&inf_use:T,
+	&reach_all:T,
+	&see_all:T,
+},
+}
