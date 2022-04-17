@@ -1,5 +1,8 @@
 {
 &cmd:{
 	&restriction:"突破了指令所设置的限制",
+},
+&game:{
+	&too_far:"离得太远了",
 }
 }

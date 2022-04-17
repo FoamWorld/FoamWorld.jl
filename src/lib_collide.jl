@@ -1,4 +1,5 @@
 abstract type CollisionBox2 end
+collide(a::CollisionBox2,b::CollisionBox2)=collide(b,a)
 struct EmptyCollisionBox<:CollisionBox2 end
 collide(::CollisionBox2,::EmptyCollisionBox)=false
 struct BCollisionBox{T}<:CollisionBox2 where T<:Number # 横平竖直的矩形

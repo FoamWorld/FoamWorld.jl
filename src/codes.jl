@@ -6,7 +6,7 @@ encode(obj::Number)=string(obj)
 encode(obj::Symbol)="&\"$(escape_string(obj))\""
 encode(obj::Char)="(Char,$(Int(obj)))"
 encode(obj::RGB)="(RGB_N0f8,$(obj.r.i),$(obj.g.i),$(obj.b.i))"
-RGB_N0f8(r::Int,g::Int,b::Int)=RGB{N0f8}(r,g,b)
+RGB_N0f8(r::Int,g::Int,b::Int)=RGB{N0f8}(reinterpret(N0f8,UInt8(r)),reinterpret(N0f8,UInt8(g)),reinterpret(N0f8,UInt8(b)))
 function encode(obj::Vector)
 	l=length(obj)
 	if isempty(l)
