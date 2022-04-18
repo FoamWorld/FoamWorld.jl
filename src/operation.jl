@@ -25,7 +25,7 @@ function plyclickblk(x::Int,y::Int,p::玩家=ply)
 		plyfill(x,y)
 		return
 	end
-	tm=c_destroy_with(p.ib[p.chosen],blk)
+	tm=destroy_with(p.ib[p.chosen],blk)
 	if (!lsetting[:break_all]) && tm==-1
 		info_help(:game,:not_destroyable)
 		return
@@ -37,11 +37,17 @@ function plyclickblk(x::Int,y::Int,p::玩家=ply)
 	# 摧毁进程
 	tm_quar=tm>>2
 	cou=0
+	global mouse_up=Channel(1)
 	t=@task begin
 		while true
 			sleep(0.5)
 			cou+=1
-			if cou>tm
+			if !isempty(mouse_up)
+				if cou>tm plydestroy(x,y)
+				else info_help(:game,:not_enough_time)
+				end
+				break
+			elseif cou>tm
 				break
 			end
 		end

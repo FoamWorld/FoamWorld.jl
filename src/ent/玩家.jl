@@ -30,6 +30,7 @@ function move!(p::玩家,x::Float,y::Float)
 	end
 end
 steplength(::玩家)=0.3
+strength(::玩家)=15
 wneed_updg(p::玩家)=p===ply
 function c_reach(p::玩家,x::Int,y::Int)
 	if lsetting[:reach_all] return true end

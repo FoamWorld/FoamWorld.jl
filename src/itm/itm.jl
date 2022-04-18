@@ -14,6 +14,13 @@ function i_show_l(i::Item,con::DrawContext)
 	so=get_loadedimg(iid)
 	fill_image(con,so,0,0)
 end
+function destroy_with(::Item,b::Block)
+	har=hard(b)
+	stre=strength(ply)
+	if har>stre+15 return -1 end
+	temp=har-stre+20
+	return temp<0 ? 0 : temp<<3
+end
 
 struct EI<:Item end
 id(i::EI)=""
