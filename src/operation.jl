@@ -12,6 +12,57 @@ go_west(tar::Entity)=move!(tar,-steplength(tar),0)
 go_east(tar::Entity)=move!(tar,steplength(tar),0)
 turn_left(tar::Entity)=tar.θ-=π/12
 turn_right(tar::Entity)=tar.θ+=π/12
+"pos是已经过处理的地图坐标"
+function mousedown(pos::Pair{Float,Float})
+	bx=floor(pos.first)
+	by=floor(pos.second)
+	if !c_reach(ply,bx,by) return end
+	plyclickblk(bx,by)
+end
+function plyclickblk(x::Int,y::Int,p::玩家=ply)
+	blk=getblk(x,y)
+	if isa(blk,气体)||isa(blk,液体)
+		plyfill(x,y)
+		return
+	end
+	tm=c_destroy_with(p.ib[p.chosen],blk)
+	if (!lsetting[:break_all]) && tm==-1
+		info_help(:game,:not_destroyable)
+		return
+	end
+	if tm<4
+		plydestroy(x,y)
+		return
+	end
+	# 摧毁进程
+	tm_quar=tm>>2
+	cou=0
+	t=@task begin
+		while true
+			sleep(0.5)
+			cou+=1
+			if cou>tm
+				break
+			end
+		end
+	end
+end
+function plyfill(x::Int,y::Int,p::玩家=ply)
+	it=p.ib.i[p.chosen]
+	blk=t_blk(it)
+	if blk==missing return false
+	else
+		setblk(x,y,blk;player_put=true)
+		if !lsetting[:inf_itm]
+			reduce!(p.ib,p.chosen,1)
+			updg(p)
+		end
+		return true
+	end
+end
+function plydestroy(x::Int,y::Int,p::玩家=ply)
+	setblk(x,y,空气())
+end
 
 function env_light()
 #=

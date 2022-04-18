@@ -3,6 +3,7 @@
 	&restriction:"突破了指令所设置的限制",
 },
 &game:{
+	&not_destroyable:"无法摧毁",
 	&too_far:"离得太远了",
 }
 }
