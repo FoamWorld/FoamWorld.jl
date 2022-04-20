@@ -14,5 +14,5 @@ winbox, # window下的box
 curui, # 当前打开的GUI板
 dcon, # 画板上下文
 loadedimgs, # 已加载的图片
-after_show=[], # show后调用
+after_show=Dict{Symbol,Function}(), # show后调用
 curuse # 当前使用的东西

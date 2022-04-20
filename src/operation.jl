@@ -35,9 +35,17 @@ function plyclickblk(x::Int,y::Int,p::玩家=ply)
 		return
 	end
 	# 摧毁进程
-	tm_quar=tm>>2
 	cou=0
-	global mouse_up=Channel(1)
+	mouse_up=Channel{Nothing}(1)
+	id=signal_connect(dcon,:mouse_release_event) do widget,event
+		put!(mouse_up,nothing)
+	end
+	sur=CairoImageSurface(loadedimgs[:dig0])
+	after_show[:d]=()->begin
+		pos=get_show_pos(x,y)
+		move_to(dcon,pos.first,pos.second)
+		set_source_surface(dcon,sur)
+	end
 	t=@task begin
 		while true
 			sleep(0.5)
@@ -47,11 +55,15 @@ function plyclickblk(x::Int,y::Int,p::玩家=ply)
 				else info_help(:game,:not_enough_time)
 				end
 				break
-			elseif cou>tm
-				break
+			elseif cou>tm wait(mouse_up)
+			elseif cou>tm>>2 sur=CairoImageSurface(loadedimgs[:dig1])
+			elseif cou>tm>>1 sur=CairoImageSurface(loadedimgs[:dig2])
 			end
 		end
 	end
+	schedule(t)
+	delete!(after_show,:d)
+	signal_handler_disconnect(dcon,id)
 end
 function plyfill(x::Int,y::Int,p::玩家=ply)
 	it=p.ib.i[p.chosen]
