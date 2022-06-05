@@ -155,3 +155,5 @@ function calc_facing(x::Int,y::Int;to::Entity=ply)
 		end
 	end
 end
+pos_by_showpos(x::Int,y::Int)=Pair(floor(x/32-7.5+ply.x),floor(y/32-7.5+ply.y))
+get_showpos(x::Int,y::Int)=Pair(floor((x-ply.x+7.5)*32),floor((y-ply.y+7.5)*32))

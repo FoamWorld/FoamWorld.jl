@@ -141,7 +141,6 @@ function decode(s::String)
 	elseif s=="NaN"
 		return NaN
 	end
-	s=clean_str(s)
 	c=s[1]
 	if c=='"' return unesc_str2(s[2:end-1])
 	elseif c=='&'
@@ -177,13 +176,15 @@ function decode(s::String)
 		end
 	end
 end
+decode_raw(s::String)=decode(clean_str(s))
+# IOBuffer
 
 function read_code(io::IO)
 	s=""
 	for i in eachline(io)
 		s*=i
 	end
-	return decode(s)
+	return decode_raw(s)
 end
 function write_code(io::IO,obj)
 	println(io,encode(obj))
@@ -195,7 +196,7 @@ function read_code(p::String)
 		s*=i
 	end
 	close(io)
-	return decode(s)
+	return decode_raw(s)
 end
 function write_code(p::String)
 	io=open(p,"w")

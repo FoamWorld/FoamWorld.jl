@@ -2,9 +2,13 @@ function onetick()
 	lsetting[:time]+=lsetting[:tmove]
 	lsetting[:t]+=1
 end
+function pregenerate_chunk()
+	plybx=xor(ply.floorx,ply.floorx&63)
+	plyby=xor(ply.floory,ply.floory&63)
+end
 function unload_chunks()
-	plybx=(floor(ply.x)>>6)<<6
-	plyby=(floor(ply.y)>>6)<<6
+	plybx=xor(ply.floorx,ply.floorx&63)
+	plyby=xor(ply.floory,ply.floory&63)
 	nowtime=Dates.now().instant.periods.value
 	for k in dim.cs
 		if -128<=k.first.first-plybx<=128 && -128<=k.first.second-plyby<=128
